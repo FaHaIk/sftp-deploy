@@ -10,7 +10,13 @@ runs:
     uses: actions/setup-python@v5
     with:
       python-version: '3.12' 
-      
+  
+  - name: Set GitHub Path
+    run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    shell: bash
+    env:
+      GITHUB_ACTION_PATH: ${{ github.action_path }}
+
   - name: "run python file"
-    run: python main.py
+    run: python ${GITHUB_ACTION_PATH}/main.py
     shell: bash
