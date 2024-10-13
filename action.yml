@@ -37,6 +37,12 @@ runs:
   - name: 'Checkout GitHub Action'
     uses: actions/checkout@v4
 
+  - name: Set GitHub Path
+    run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    shell: bash
+    env:
+      GITHUB_ACTION_PATH: ${{ github.action_path }}
+
   - name: 'Set up Python 3.12'
     uses: actions/setup-python@v5
     with:
@@ -44,14 +50,8 @@ runs:
       cache: 'pip'
 
   - name: "install python deps"
-    run: pip install -r requirements.txt
+    run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
     shell: bash
-
-  - name: Set GitHub Path
-    run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-    shell: bash
-    env:
-      GITHUB_ACTION_PATH: ${{ github.action_path }}
 
   - name: "run python file"
     run: python ${GITHUB_ACTION_PATH}/main.py
