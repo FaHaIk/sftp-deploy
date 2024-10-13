@@ -49,9 +49,9 @@ runs:
       python-version: '3.12'
       cache: 'pip'
 
-  - name: "install python deps"
-    run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
-    shell: bash
+  # - name: "install python deps"
+  #   run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
+  #   shell: bash
 
   - name: "run python file"
     run: python ${GITHUB_ACTION_PATH}/main.py
