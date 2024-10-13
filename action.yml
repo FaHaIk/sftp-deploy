@@ -47,7 +47,7 @@ runs:
     uses: actions/setup-python@v5
     with:
       python-version: '3.12'
-      cache: 'pip'
+      # cache: 'pip'
 
   # - name: "install python deps"
   #   run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
