@@ -1,0 +1,58 @@
+name: 'SFTP Deploy'
+description: 'Deploys a folder to a remote server via sftp.'
+inputs:
+    host:
+        description: 'The host of the remote server'
+        required: true
+    username:
+        description: 'The username to use for the sftp connection'
+        required: true
+    password:
+        description: 'The password to use for the sftp connection'
+        required: false
+    local_dir:
+        description: 'The local directory to upload'
+        required: true
+    remote_dir:
+        description: 'The remote directory to upload to'
+        required: true
+    conn_timeout:
+        description: 'The connection timeout in milliseconds'
+        required: false
+        default: 5000
+    port:
+        description: 'The port to use for the sftp connection'
+        required: false
+        default: 22
+    ssh_private_key:
+        description: 'The path to the ssh private key to use'
+        required: false
+    passphrase:
+        description: 'The passphrase to use for the ssh private key'
+        required: false
+        
+runs:
+  using: "composite"
+  steps:
+  - name: 'Checkout GitHub Action'
+    uses: actions/checkout@v4
+
+  - name: 'Set up Python 3.12'
+    uses: actions/setup-python@v5
+    with:
+      python-version: '3.12'
+      cache: 'pip'
+
+  - name: "install python deps"
+    run: pip install -r requirements.txt
+    shell: bash
+
+  - name: Set GitHub Path
+    run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    shell: bash
+    env:
+      GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+  - name: "run python file"
+    run: python ${GITHUB_ACTION_PATH}/main.py
+    shell: bash
